@@ -33,4 +33,9 @@ public class CustomerController {
         }
         return customerName;
     }
+
+    @GetMapping(path = "/test")
+    public void test(){
+        log.info("testing...");
+    }
 }
