@@ -18,6 +18,7 @@ public class CustomerController {
     private static Map<String, String> customers = new HashMap<>();
 
     static{
+        log.info("you're in static code ");
         customers.put("1", "我");
         customers.put("2", "父亲");
         customers.put("3", "母亲");
