@@ -3,6 +3,7 @@ package com.vb.customer.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +24,7 @@ public class CustomerController {
     }
 
     @GetMapping(path = "/customers/{customerId}")
-    public String getCustomerName(String customerId){
+    public String getCustomerName(@PathVariable String customerId){
         log.info("receive a request to customer-srv to get customer name");
         String customerName = customers.get(customerId);
         if(StringUtils.isBlank(customerName)){
