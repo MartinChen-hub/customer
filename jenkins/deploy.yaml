@@ -1,46 +1,39 @@
----
-apiVersion: extensions/v1beta1
 kind: Deployment
+apiVersion: apps/v1
 metadata:
-  name: edda
-  namespace: ostone-platform
+  name: customer
+  namespace: dev-customer
 spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customer
   template:
     metadata:
       labels:
-        app: edda
+        app: customer
     spec:
-      terminationGracePeriodSeconds: 10
-      serviceAccountName: edda-k8s-sa
       containers:
-        - name: edda
-          image: markchen20190628/edda:v2.0
+        - image: markchen20190628/customer:v1.0
+          name: customer
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
-              name: web
+              name: customer-port
               protocol: TCP
-            - containerPort: 50001
-              name: agent
-              protocol: TCP
-
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: edda
-  namespace: ostone-platform
-  labels:
-    app: edda
+  name: customer
+  namespace: dev-customer
 spec:
-  selector:
-    app: edda
-  type: NodePort
   ports:
-    - name: web
+    - name: customer-port
+      nodePort: 30003
       port: 8080
-      targetPort: web
-      nodePort: 31087
-    - name: agent
-      port: 50001
-      targetPort: agent
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: customer
+  type: NodePort
