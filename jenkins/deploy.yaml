@@ -1,0 +1,46 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: edda
+  namespace: ostone-platform
+spec:
+  template:
+    metadata:
+      labels:
+        app: edda
+    spec:
+      terminationGracePeriodSeconds: 10
+      serviceAccountName: edda-k8s-sa
+      containers:
+        - name: edda
+          image: markchen20190628/edda:v2.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: web
+              protocol: TCP
+            - containerPort: 50001
+              name: agent
+              protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: edda
+  namespace: ostone-platform
+  labels:
+    app: edda
+spec:
+  selector:
+    app: edda
+  type: NodePort
+  ports:
+    - name: web
+      port: 8080
+      targetPort: web
+      nodePort: 31087
+    - name: agent
+      port: 50001
+      targetPort: agent
