@@ -34,8 +34,34 @@ public class CustomerController {
     @PostMapping(path = "/customers/{customerId}/{customerName}")
     public String createCustomer(@PathVariable String customerId, @PathVariable String customerName){
         log.info("receive a request to customer-srv to create customer");
-        customers.put(customerId, customerName);
-        return "success";
+        if(customers.containsKey(customerId)) {
+            customers.put(customerId, customerName);
+        }else{
+            return customerId+" already existed. Please Check!";
+        }
+        return "create success";
+    }
+
+    @PutMapping(path = "/customers/{customerId}/{customerName}")
+    public String updateCustomer(@PathVariable String customerId, @PathVariable String customerName){
+        log.info("receive a request to customer-srv to update customer name");
+        if(customers.containsKey(customerId)) {
+            customers.put(customerId, customerName);
+        }else{
+            return customerId+" not found. Please Check!";
+        }
+        return "update success";
+    }
+
+    @DeleteMapping(path = "/customers/{customerId}")
+    public String deleteCustomer(@PathVariable String customerId){
+        log.info("receive a request to customer-srv to delete customer");
+        if(customers.containsKey(customerId)) {
+            customers.remove(customerId);
+        }else{
+            return customerId+" not found. Please Check!";
+        }
+        return "delete success";
     }
 
     @GetMapping(path = "/test")
