@@ -35,9 +35,9 @@ public class CustomerController {
     public String createCustomer(@PathVariable String customerId, @PathVariable String customerName){
         log.info("receive a request to customer-srv to create customer");
         if(customers.containsKey(customerId)) {
-            customers.put(customerId, customerName);
-        }else{
             return customerId+" already existed. Please Check!";
+        }else{
+            customers.put(customerId, customerName);
         }
         return "create success";
     }
