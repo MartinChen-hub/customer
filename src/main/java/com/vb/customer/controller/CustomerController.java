@@ -2,10 +2,7 @@ package com.vb.customer.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +29,13 @@ public class CustomerController {
             customerName = "customer not found";
         }
         return customerName;
+    }
+
+    @PostMapping(path = "/customers/{customerId}/{customerName}")
+    public String createCustomer(@PathVariable String customerId, @PathVariable String customerName){
+        log.info("receive a request to customer-srv to create customer");
+        customers.put(customerId, customerName);
+        return "success";
     }
 
     @GetMapping(path = "/test")
